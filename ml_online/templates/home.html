@@ -1,0 +1,13 @@
+{%extends 'base.html'%}
+{% block content %}
+ </br></br></br></br>
+ <div class="container" width="100" style="margin-left:100px; padding-left:50px;">
+   <div class="list-group" style = "width:200px; text-align:center;  height:200px;">
+   <a href="{% url 'regHome'%}" class="list-group-item">Regression</a>
+   <a href="{% url 'clHome'%}" class="list-group-item">Classification</a>
+   <a href="{% url 'cluHome'%}" class="list-group-item">Clustering</a>
+  <a href="{% url 'neuHome'%}" class="list-group-item">Neural Networks</a>
+
+ </div>
+ </div>
+{% endblock %}

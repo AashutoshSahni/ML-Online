@@ -1,0 +1,58 @@
+{%extends 'base.html'%}
+{% block content %}
+ </br></br></br></br>
+ <form id = "submit" class="" action="" method="post" >
+    {% csrf_token %}
+  Enter:
+  <br/>
+ <input type="text" name="num" value="" id="in">
+ <br/>
+ <button type="" id = "hey" class="btn btn-primary">Click me! </button>
+ </form>
+<p id="hoo">fvvfv</p>
+<!-- <button type="button" onclick="load()" name="button" value="yo"></button> -->
+<p id="yo" onclick="load()">de</p>
+
+
+{% endblock %}
+{%block scripts%}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+  var token = "{{csrf_token}}";
+  function load() {
+  alert("yo")
+  }
+
+  $("p").click(function(){
+    $(this).hide();
+  });
+
+  $("#submit").submit(function(event){
+   event.preventDefault();
+
+    var n ;
+    n = $('#in').val();
+     alert(n);
+  $.ajax(
+
+  {
+     headers: { "X-CSRFToken": token },
+     type:"POST",
+     url: "ajax/show_output",
+     data:{
+              num: n
+  },
+   success: function( response )
+  {
+    $("#hoo").html(response);
+  }
+ })
+});
+
+
+
+</script>
+
+{%endblock%}
