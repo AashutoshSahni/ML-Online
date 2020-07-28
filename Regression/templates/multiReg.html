@@ -1,0 +1,118 @@
+{%extends 'base.html'%}
+{% load staticfiles%}
+{% block content %}
+<style media="screen">
+ #div1 {
+   width: 75px;
+   height: 400px;
+   overflow:auto;
+ }
+
+ .csv_div {
+   width: 400px;
+   height: 400px;
+   overflow: auto;
+
+ }
+</style>
+ <br/><br/><br/><br/>
+   <div class="container">
+    <h2><u>Multiple Linear Regression:</u></h2>
+
+    <br/>
+    <p>Multiple regression is an extension of simple linear regression. It is used when we want to predict the value of a variable based on the value of two or more other variables. The variable we want to predict is called the dependent variable (or sometimes, the outcome, target or criterion variable). The variables we are using to predict the value of the dependent variable are called the independent variables (or sometimes, the predictor, explanatory or regressor variables). </p>
+    <p>Multiple regression also allows you to determine the overall fit (variance explained) of the model and the relative contribution of each of the predictors to the total variance explained. For example, you might want to know how much of the variation in exam performance can be explained by revision time, test anxiety, lecture attendance and gender "as a whole", but also the "relative contribution" of each independent variable in explaining the variance.</p>
+    <p>This is the general equation of a polynomial regression is:</p>
+
+    <p>Y(pred) = b0 + b1*x + b2*x + .. +bn*x</p>
+    <p><a href="http://www.statsoft.com/Textbook/Multiple-Regression">Click here to read more</a></p>
+    <p>Below is an example of prediction using multiple regression. Click on <b>View data!</b> to see the dataset</p>
+    <p>This model takes 4 factors in consideration pf MNC's R&D Spend, Administration, Marketing Spend and State and predicts the profit</p>
+    <p>Since the data has more than 1 dimensions it is not possible to plot the results.</p>
+    <div class="container">
+        {%csrf_token%}
+
+      <div class="row">
+        <div class="container col-sm-3  align-content-end flex-wrap">
+          <button class="btn btn-info" type="button" name="button" id="csv_btn">View data!</button>
+          <br/><br/>
+          <div class="csv_div">
+              <p id="csv"></p>
+          </div>
+
+
+          <button class="btn btn-dark invisible" type="button" name="button" id="hide_btn">Hide data!</button>
+
+        </div>
+        <div class="container col-sm-3 align-content-end flex-wrap" align="left">
+          <!-- <button type="button" onclick="load()" name="button" value="yo"></button> -->
+          <!-- <p id="yo" onclick="load()">de</p> -->
+          <p><button class="btn btn-primary"type="button" id="btn" name="button">Click</button></p>
+          <br/>
+          <div id="div1">
+            <p id="ans"></p>
+        </div>
+        </div>
+        </div>
+
+   </div>
+   {%endblock%}
+   {%block scripts%}
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+   <script type="text/javascript">
+
+      var token = "{{csrf_token}}";
+
+   	$("#btn").click(function(event) {
+
+
+       event.preventDefault();
+       // alert("bye")
+
+
+   			$.ajax({
+   				url: "ajax/show_multiOut",
+   				type: "POST",
+           headers: { "X-CSRFToken": token },
+           success:function(response){
+              alert(response);
+                   $("#ans").html(response);
+           }
+   			});
+
+   	});
+
+     $("#csv_btn").click(function(event){
+       event.preventDefault();
+       // alert("hi");
+       $.ajax(
+         {
+           headers: {"X-CSRFToken":token},
+           type:"POST",
+           url:"ajax/show_mcsv",
+           success: function(response){
+             $("#csv").html(response);
+             $("#hide_btn").attr("class","btn btn-dark visible");
+             $(".csv_div").css( "background-color","#5DEDB6")
+             $("#csv_btn").hide();
+             $("#csv").show();
+             // document.getElementById('hide_btn').className = "btn btn-dark visible";
+           }
+
+         }
+       )
+     });
+
+     $("#hide_btn").click(function(){
+       $(".csv_div").css( "background-color","#f08f8b")
+       $("#csv").hide();
+       $("#csv_btn").show();
+       $("#hide_btn").attr("class","btn btn-dark invisible");
+
+     });
+   </script>
+
+
+
+
+{% endblock %}

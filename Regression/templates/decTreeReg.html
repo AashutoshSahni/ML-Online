@@ -1,0 +1,139 @@
+{%extends 'base.html'%}
+{% block content %}
+{%load staticfiles%}
+<style>
+  img {
+    display: block;
+   margin-left: auto;
+   margin-right: auto;
+   width: 40%;
+  }
+  </style>
+ <br/><br/><br/><br/>
+ <div class="container">
+  <h2><u>Decision Tree Regression:</u></h2>
+  <br/>
+  <p>Decision tree builds regression or classification models in the form of a tree structure. It breaks down a dataset into smaller and smaller subsets while at the same time an associated decision tree is incrementally developed. The final result is a tree with decision nodes and leaf nodes. A decision node (e.g., Outlook) has two or more branches (e.g., Sunny, Overcast and Rainy), each representing values for the attribute tested. Leaf node (e.g., Hours Played) represents a decision on the numerical target. The topmost decision node in a tree which corresponds to the best predictor called root node. Decision trees can handle both categorical and numerical data. </p>
+
+  <p><a href="https://towardsdatascience.com/https-medium-com-lorrli-classification-and-regression-analysis-with-decision-trees-c43cdbc58054">Click here to read more</a></p>
+  <p><b><i>Below is an example of prediction using polynomial regression.</i></b> Click on <b>View data!</b> to see the dataset</p>
+  <p>The example can be seen as a salary predictor of a person who is trying to apply for a job, HR can use this model to check whether the person is lying about his/her salary in previous company in that particular job role. There are 10 levels from 1 -> Buisness Analyst to 10 -> CEO.</p>
+  <p>For example if a person says he/her worked as Region Manager(Level 6) and it takes 2 years to promote to a Partner(Level 7). So by entering 6.5 in the model we can get approx salary based on the data provided and the model used.</p>
+  <p>Please enter a number between 1 and 10(can be decimal accoding to needs)</p>
+  <p><a href="{%static 'decision_tree_regression.py'%}">Click here to see Code!</a></p>
+  <br>
+  <p>Plot of how well the data got fit in this model</p>
+  <img src="{%static 'TB_decision.png'%}" alt="">
+  <br/>
+
+ </div>
+
+ <div class="container-fluid">
+
+
+   <div class="row">
+     <div class="container col-sm-3  align-content-end flex-wrap">
+       <form id = "submit" class="" action="" method="post" >
+         {% csrf_token %}
+         Enter:
+         <br/>
+         <input type="text" name="num" value="" id="in">
+
+
+         <br/><br/>
+         <button type="" id = "hey" class="btn btn-primary">Click me! </button>
+          <br/>
+           <p>Predicted salary: </p>
+           <p><b id="ans"></b></p>
+
+       </form>
+
+     </div>
+     <div class="container col-sm-3 align-content-end flex-wrap" align="left">
+       <!-- <button type="button" onclick="load()" name="button" value="yo"></button> -->
+       <!-- <p id="yo" onclick="load()">de</p> -->
+       <button class="btn btn-info" type="button" name="button" id="csv_btn">View data!</button>
+       <br/><br/>
+       <div class="csv_div">
+       <p id="csv"></p>
+       </div>
+       <button class="btn btn-dark invisible" type="button" name="button" id="hide_btn">Hide data!</button>
+     </div>
+   </div>
+      <br/><br/>
+ </div>
+{% endblock %}
+{%block scripts%}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+  var token = "{{csrf_token}}";
+  function load() {
+  alert("yo")
+  }
+
+  $("p").click(function(){
+    $(this).hide();
+  });
+
+  $("#submit").submit(function(event){
+   event.preventDefault();
+
+    var n ;
+    n = $('#in').val();
+     // alert(n);
+  $.ajax(
+
+  {
+     headers: { "X-CSRFToken": token },
+     type:"POST",
+     url: "ajax/show_dtrOut",
+     data:{
+              num: n
+          },
+   success: function( response )
+  {
+    if(response == "NO"){
+      alert("Please enter a number [1-10]");
+    }else{
+      $("#ans").html(response);
+    }
+  }
+ })
+});
+
+$("#csv_btn").click(function(event){
+  event.preventDefault();
+  // alert("hi");
+  $.ajax(
+    {
+      headers: {"X-CSRFToken":token},
+      type:"POST",
+      url:"ajax/show_csv",
+      success: function(response){
+        $("#csv").html(response);
+          $(".csv_div").css( "background-color","#5DEDB6")
+        $("#hide_btn").attr("class","btn btn-dark visible");
+        $("#csv_btn").hide();
+        $("#csv").show();
+        // document.getElementById('hide_btn').className = "btn btn-dark visible";
+      }
+
+    }
+  )
+});
+
+$("#hide_btn").click(function(){
+  $("#csv").hide();
+  $("#csv_btn").show();
+  $(".csv_div").css( "background-color","#f08f8b")
+  $("#hide_btn").attr("class","btn btn-dark invisible");
+
+});
+
+
+
+</script>
+
+{%endblock%}

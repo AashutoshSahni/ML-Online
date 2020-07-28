@@ -1,0 +1,35 @@
+{%extends 'base.html'%}
+{% load staticfiles%}
+{% block content %}
+ <br/><br/><br/><br/>
+   <div class="container">
+    <h2><u>Logistic Regression Classification:</u></h2>
+
+    <br/>
+    <p>
+
+Logistic regression is the appropriate regression analysis to conduct when the dependent variable is dichotomous (binary).  Like all regression analyses, the logistic regression is a predictive analysis.  Logistic regression is used to describe data and to explain the relationship between one dependent binary variable and one or more nominal, ordinal, interval or ratio-level independent variables..</p>
+    <p>The logistic function, also called the sigmoid function was developed by statisticians to describe properties of population growth in ecology, rising quickly and maxing out at the carrying capacity of the environment. It’s an S-shaped curve that can take any real-valued number and map it into a value between 0 and 1, but never exactly at those limits.</p>
+
+     <p>1 / (1 + e^-value)</p>
+
+
+    <p><a href="https://towardsdatascience.com/logistic-regression-detailed-overview-46c4da4303bc">Click here to read more</a></p>
+    <p>Below is an example of prediction using polynomial regression. Click on <b>View data!</b> to see the dataset</p>
+    <p>The example can be seen as a salary predictor of a person who is trying to apply for a job, HR can use this model to check whether the person is lying about his/her salary in previous company in that particular job role. There are 10 levels from 1 -> Buisness Analyst to 10 -> CEO.</p>
+    <p>For example if a person says he/her worked as Region Manager(Level 6) and it takes 2 years to promote to a Partner(Level 7). So by entering 6.5 in the model we can get approx salary based on the data provided and the model used.</p>
+    <p>Please enter a number between 1 and 10(can be decimal accoding to needs)</p>
+    <p><a href="{%static 'logistic_regression.py'%}">Click here to see Code!</a></p>
+    <div>
+    <img src="{%static 'purchased_logistic_train.png'%}" alt="">
+    </div>
+    <br/>
+    <div>
+     <img src="{%static 'purchased_logistic_test.png'%}" alt="">
+     </div>
+   </div>
+
+
+
+
+{% endblock %}

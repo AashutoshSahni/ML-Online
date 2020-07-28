@@ -1,0 +1,32 @@
+{%extends 'base.html'%}
+{% load staticfiles%}
+{% block content %}
+ <br/><br/><br/><br/>
+   <div class="container">
+    <h2><u>SVM Classification:</u></h2>
+
+    <br/>
+    <p>“Support Vector Machine” (SVM) is a supervised machine learning algorithm which can be used for both classification or regression challenges. However,  it is mostly used in classification problems. In this algorithm, we plot each data item as a point in n-dimensional space (where n is number of features you have) with the value of each feature being the value of a particular coordinate. Then, we perform classification by finding the hyper-plane that differentiate the two classes very well.</p>
+    <p>Support Vectors are simply the co-ordinates of individual observation. Support Vector Machine is a frontier which best segregates the two classes (hyper-plane/ line).
+
+</p>
+
+    <p><a href="https://www.analyticsvidhya.com/blog/2017/09/understaing-support-vector-machine-example-code/">Click here to read more</a></p>
+    <p>Below is an example of prediction using polynomial regression. Click on <b>View data!</b> to see the dataset</p>
+    <p>The example can be seen as a salary predictor of a person who is trying to apply for a job, HR can use this model to check whether the person is lying about his/her salary in previous company in that particular job role. There are 10 levels from 1 -> Buisness Analyst to 10 -> CEO.</p>
+    <p>For example if a person says he/her worked as Region Manager(Level 6) and it takes 2 years to promote to a Partner(Level 7). So by entering 6.5 in the model we can get approx salary based on the data provided and the model used.</p>
+    <p>Please enter a number between 1 and 10(can be decimal accoding to needs)</p>
+    <p><a href="{%static 'svm.py'%}">Click here to see Code!</a></p>
+    <div>
+    <img src="{%static 'purchased_SVM_train.png'%}" alt="">
+    </div>
+    <br/>
+    <div>
+     <img src="{%static 'purchased_SVM_test.png'%}" alt="">
+     </div>
+   </div>
+
+
+
+
+{% endblock %}

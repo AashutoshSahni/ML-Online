@@ -1,0 +1,29 @@
+{%extends 'base.html'%}
+{% load staticfiles%}
+{% block content %}
+ <br/><br/><br/><br/>
+   <div class="container">
+    <h2><u>Kernel SVM Classification:</u></h2>
+
+    <br/>
+    <p>In SVM, it is easy to have a linear hyper-plane between these two classes. But, another burning question which arises is, should we need to add this feature manually to have a hyper-plane. No, SVM has a technique called the kernel trick. These are functions which takes low dimensional input space and transform it to a higher dimensional space i.e. it converts not separable problem to separable problem, these functions are called kernels. It is mostly useful in non-linear separation problem. Simply put, it does some extremely complex data transformations, then find out the process to separate the data based on the labels or outputs you’ve defined.</p>
+
+    <p><a href="https://www.analyticsvidhya.com/blog/2017/09/understaing-support-vector-machine-example-code/">Click here to read more</a></p>
+    <p>Below is an example of prediction using polynomial regression. Click on <b>View data!</b> to see the dataset</p>
+    <p>The example can be seen as a salary predictor of a person who is trying to apply for a job, HR can use this model to check whether the person is lying about his/her salary in previous company in that particular job role. There are 10 levels from 1 -> Buisness Analyst to 10 -> CEO.</p>
+    <p>For example if a person says he/her worked as Region Manager(Level 6) and it takes 2 years to promote to a Partner(Level 7). So by entering 6.5 in the model we can get approx salary based on the data provided and the model used.</p>
+    <p>Please enter a number between 1 and 10(can be decimal accoding to needs)</p>
+    <p><a href="{%static 'kernel_svm.py'%}">Click here to see Code!</a></p>
+    <div>
+    <img src="{%static 'purchased_K_SVM_train.png'%}" alt="">
+    </div>
+    <br/>
+    <div>
+     <img src="{%static 'purchased_K_SVM_test.png'%}" alt="">
+     </div>
+   </div>
+
+
+
+
+{% endblock %}

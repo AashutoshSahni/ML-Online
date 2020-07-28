@@ -3,12 +3,12 @@
  </br></br></br></br>
  <div class="container" width="100" style="margin-left:100px; padding-left:50px;">
    <div class="list-group" style = "width:200px; text-align:center;  height:200px;">
-     <a href="#" class="list-group-item">Simple Linear Regression</a>
-     <a href="#" class="list-group-item">Multiple Linear Regression</a>
+     <a href="{%url 'lin'%}" class="list-group-item">Simple Linear Regression</a>
+     <a href="{%url 'multi'%}" class="list-group-item">Multiple Linear Regression</a>
      <a href="{%url 'poly'%}" class="list-group-item">Polynomial Regression</a>
-    <a href="#" class="list-group-item">Support Vector Regression</a>
-    <a href="#" class="list-group-item">Decision Tree Regression</a>
-    <a href="#" class="list-group-item">Random Forest Regression</a>
+    <a href="{% url 'svr'%}" class="list-group-item">Support Vector Regression</a>
+    <a href="{%url 'DTR'%}" class="list-group-item">Decision Tree Regression</a>
+    <a href="{%url 'RFR'%}" class="list-group-item">Random Forest Regression</a>
 
  </div>
  </div>

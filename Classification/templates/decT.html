@@ -1,0 +1,32 @@
+{%extends 'base.html'%}
+{% load staticfiles%}
+{% block content %}
+ <br/><br/><br/><br/>
+   <div class="container">
+    <h2><u>Decision Tree Classification:</u></h2>
+
+    <br/>
+    <p>Using the decision algorithm, we start at the tree root and split the data on the feature that results in the largest information gain (IG) (reduction in uncertainty towards the final decision).</p>
+    <p>In an iterative process, we can then repeat this splitting procedure at each child node until the leaves are pure. This means that the samples at each leaf node all belong to the same class.</p>
+
+    <p>In practice, we may set a limit on the depth of the tree to prevent overfitting. We compromise on purity here somewhat as the final leaves may still have some impurity.</p>
+    <p><a href="https://www.datacamp.com/community/tutorials/decision-tree-classification-python">Click here to read more</a></p>
+    <p>Below is an example of prediction using polynomial regression. Click on <b>View data!</b> to see the dataset</p>
+    <p>The example can be seen as a salary predictor of a person who is trying to apply for a job, HR can use this model to check whether the person is lying about his/her salary in previous company in that particular job role. There are 10 levels from 1 -> Buisness Analyst to 10 -> CEO.</p>
+    <p>For example if a person says he/her worked as Region Manager(Level 6) and it takes 2 years to promote to a Partner(Level 7). So by entering 6.5 in the model we can get approx salary based on the data provided and the model used.</p>
+    <p>Please enter a number between 1 and 10(can be decimal accoding to needs)</p>
+    <p><a href="{%static 'logistic_regression.py'%}">Click here to see Code!</a></p>
+
+  <div>
+    <img src="{%static 'purchased_decision_train.png'%}" alt="">
+  </div>
+    <br/>
+    <div>
+     <img src="{%static 'purchased_decision_test.png'%}" alt="">
+    </div>
+   </div>
+
+
+
+
+{% endblock %}

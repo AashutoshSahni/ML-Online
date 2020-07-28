@@ -1,0 +1,43 @@
+{%extends 'base.html'%}
+{% load staticfiles%}
+{% block content %}
+#pl {
+  float: right;
+
+}
+#grph{
+  float:left;
+}
+ <br/><br/><br/><br/>
+   <div class="container">
+    <h2><u>K Means Clustering:</u></h2>
+
+    <br/>
+    <p>The objective of K-means is simple: group similar data points together and discover underlying patterns. To achieve this objective, K-means looks for a fixed number (k) of clusters in a dataset.</p>
+    <p>To process the learning data, the K-means algorithm in data mining starts with a first group of randomly selected centroids, which are used as the beginning points for every cluster, and then performs iterative (repetitive) calculations to optimize the positions of the centroids</p>
+
+
+    <p><a href="https://towardsdatascience.com/understanding-k-means-clustering-in-machine-learning-6a6e67336aa1">Click here to read more</a></p>
+    <p>Below is an example of prediction using polynomial regression. Click on <b>View data!</b> to see the dataset</p>
+    <p>The example can be seen as a salary predictor of a person who is trying to apply for a job, HR can use this model to check whether the person is lying about his/her salary in previous company in that particular job role. There are 10 levels from 1 -> Buisness Analyst to 10 -> CEO.</p>
+    <p>For example if a person says he/her worked as Region Manager(Level 6) and it takes 2 years to promote to a Partner(Level 7). So by entering 6.5 in the model we can get approx salary based on the data provided and the model used.</p>
+    <p>Please enter a number between 1 and 10(can be decimal accoding to needs)</p>
+    <p><a href="{%static 'kmeans.py'%}">Click here to see Code!</a></p>
+    <div class="container">
+      <img id = "grph"src="{%static 'kmeans_graph.png'%}" alt="">
+
+    </div>
+
+    <div class="container">
+      <img id = "pl"src="{%static 'kmeans.png'%}" alt="">
+    </div>
+
+
+
+
+   </div>
+
+
+
+
+{% endblock %}

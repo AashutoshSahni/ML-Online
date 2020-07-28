@@ -1,0 +1,115 @@
+{%extends 'base.html'%}
+{%block content%}
+{%load staticfiles%}
+<style media="screen">
+ #div1 {
+   width: 75px;
+   height: 400px;
+   overflow:auto;
+ }
+
+ .csv_div {
+   width: 400px;
+   height: 400px;
+   overflow: auto;
+ }
+</style>
+
+<br/><br/><br/><br/>
+<div class="container">
+ <h2><u>Artificial Neural Networks:</u></h2>
+ <br/>
+ <p>An ANN is based on a collection of connected units or nodes called artificial neurons, which loosely model the neurons in a biological brain. Each connection, like the synapses in a biological brain, can transmit a signal to other neurons. An artificial neuron that receives a signal then processes it and can signal neurons connected to it.</p>
+ <p>The connections are called edges. Neurons and edges typically have a weight that adjusts as learning proceeds. The weight increases or decreases the strength of the signal at a connection. Neurons may have a threshold such that a signal is sent only if the aggregate signal crosses that threshold.</p>
+
+
+ <p><a href="https://www.analyticsvidhya.com/blog/2014/10/ann-work-simplified/">Click here to read more</a></p>
+ <a href="{%static 'ann.py'%}">Click here to see Code!</a>
+ <p>Below is an example of prediction using ANN. Click on <b>View data!</b> to see the dataset</p>
+ <p>The example can be seen as a "Churn Model" for bank which using 13 variables for dataset predicts whether the user will leave the bank or not.</p>
+
+</div>
+<div class="container">
+    {%csrf_token%}
+
+  <div class="row">
+    <div class="container col-sm-3  align-content-end flex-wrap">
+      <button class="btn btn-info" type="button" name="button" id="csv_btn">View data!</button>
+      <br/><br/>
+      <div class="csv_div">
+          <p id="csv"></p>
+      </div>
+
+
+      <button class="btn btn-dark invisible" type="button" name="button" id="hide_btn">Hide data!</button>
+
+    </div>
+    <div class="container col-sm-3 align-content-end flex-wrap" align="left">
+      <!-- <button type="button" onclick="load()" name="button" value="yo"></button> -->
+      <!-- <p id="yo" onclick="load()">de</p> -->
+      <p><button class="btn btn-primary"type="button" id="btn" name="button">Click</button></p>
+      <br/>
+      <div id="div1">
+        <p id="ans"></p>
+    </div>
+    </div>
+
+  </div>
+
+</div>
+{%endblock%}
+{%block scripts%}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+   var token = "{{csrf_token}}";
+
+	$("#btn").click(function(event) {
+
+
+    event.preventDefault();
+    // alert("bye")
+
+
+			$.ajax({
+				url: "ajax/show_ANNOut",
+				type: "POST",
+        headers: { "X-CSRFToken": token },
+        success:function(response){
+                $("#ans").html(response);
+                $("#div1").css("background-color","#ff471a");
+        }
+			});
+
+	});
+
+  $("#csv_btn").click(function(event){
+    event.preventDefault();
+    // alert("hi");
+    $.ajax(
+      {
+        headers: {"X-CSRFToken":token},
+        type:"POST",
+        url:"ajax/show_csv",
+        success: function(response){
+          $("#csv").html(response);
+          $(".csv_div").css( "background-color","#5DEDB6")
+          $("#hide_btn").attr("class","btn btn-dark visible");
+          $("#csv_btn").hide();
+          $("#csv").show();
+          // document.getElementById('hide_btn').className = "btn btn-dark visible";
+        }
+
+      }
+    )
+  });
+
+  $("#hide_btn").click(function(){
+    $(".csv_div").css( "background-color","#f08f8b")
+    $("#csv").hide();
+    $("#csv_btn").show();
+    $("#hide_btn").attr("class","btn btn-dark invisible");
+
+  });
+</script>
+{%endblock%}

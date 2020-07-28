@@ -1,19 +1,69 @@
 {%extends 'base.html'%}
 {% block content %}
- </br></br></br></br>
- <form id = "submit" class="" action="" method="post" >
-    {% csrf_token %}
-  Enter:
+{%load staticfiles%}
+<style>
+  img {
+    display: block;
+   margin-left: auto;
+   margin-right: auto;
+   width: 40%;
+
+  </style>
+ <br/><br/><br/><br/>
+ <div class="container">
+  <h2><u>Polynomial Regression:</u></h2>
   <br/>
- <input type="text" name="num" value="" id="in">
- <br/>
- <button type="" id = "hey" class="btn btn-primary">Click me! </button>
- </form>
-<p id="hoo">fvvfv</p>
-<!-- <button type="button" onclick="load()" name="button" value="yo"></button> -->
-<p id="yo" onclick="load()">de</p>
+  <p>In statistics, polynomial regression is a form of regression analysis in which the relationship between the independent variable x and the dependent variable y is modelled as an nth degree polynomial in x. Polynomial regression fits a nonlinear relationship between the value of x and the corresponding conditional mean of y, denoted E(y |x), and has been used to describe nonlinear phenomena such as the growth rate of tissues, the distribution of carbon isotopes in lake sediments, and the progression of disease epidemics.</p>
+  <p>This is the general equation of a polynomial regression is:</p>
+
+  <p>Y=θo + θ₁X + θ₂X² + … + θₘXᵐ</p>
+  <p><a href="https://towardsdatascience.com/polynomial-regression-bbe8b9d97491">Click here to read more</a></p>
+  <p><b><i>Below is an example of prediction using polynomial regression.</i></b> Click on <b>View data!</b> to see the dataset</p>
+  <p>The example can be seen as a salary predictor of a person who is trying to apply for a job, HR can use this model to check whether the person is lying about his/her salary in previous company in that particular job role. There are 10 levels from 1 -> Buisness Analyst to 10 -> CEO.</p>
+  <p>For example if a person says he/her worked as Region Manager(Level 6) and it takes 2 years to promote to a Partner(Level 7). So by entering 6.5 in the model we can get approx salary based on the data provided and the model used.</p>
+  <p>Please enter a number between 1 and 10(can be decimal accoding to needs)</p>
+  <p><a href="{%static 'polynomial_regression.py'%}">Click here to see Code!</a></p>
+  <br>
+  <p>Plot of how well the data got fit in this model</p>
+  <img src="{%static 'TB_polyreg.png'%}" alt="">
+  <br/>
+
+ </div>
+
+ <div class="container-fluid">
 
 
+   <div class="row">
+     <div class="container col-sm-3  align-content-end flex-wrap">
+       <form id = "submit" class="" action="" method="post" >
+         {% csrf_token %}
+         Enter:
+         <br/>
+         <input type="text" name="num" value="" id="in">
+
+
+         <br/><br/>
+         <button type="" id = "hey" class="btn btn-primary">Click me! </button>
+          <br/>
+           <p>Predicted salary: </p>
+           <p><b id="ans"></b></p>
+
+       </form>
+
+     </div>
+     <div class="container col-sm-3 align-content-end flex-wrap" align="left">
+       <!-- <button type="button" onclick="load()" name="button" value="yo"></button> -->
+       <!-- <p id="yo" onclick="load()">de</p> -->
+       <button class="btn btn-info" type="button" name="button" id="csv_btn">View data!</button>
+       <br/><br/>
+       <div class="csv_div">
+       <p id="csv"></p>
+       </div>
+       <button class="btn btn-dark invisible" type="button" name="button" id="hide_btn">Hide data!</button>
+     </div>
+   </div>
+      <br/><br/>
+ </div>
 {% endblock %}
 {%block scripts%}
 
@@ -34,21 +84,54 @@
 
     var n ;
     n = $('#in').val();
-     alert(n);
+     // alert(n);
   $.ajax(
 
   {
      headers: { "X-CSRFToken": token },
      type:"POST",
-     url: "ajax/show_output",
+     url: "ajax/show_polyOut",
      data:{
               num: n
-  },
+          },
    success: function( response )
   {
-    $("#hoo").html(response);
+    if(response == "NO"){
+      alert("Please enter a number [1-10]");
+    }else{
+      $("#ans").html(response);
+    }
   }
  })
+});
+
+$("#csv_btn").click(function(event){
+  event.preventDefault();
+  // alert("hi");
+  $.ajax(
+    {
+      headers: {"X-CSRFToken":token},
+      type:"POST",
+      url:"ajax/show_csv",
+      success: function(response){
+        $("#csv").html(response);
+        $(".csv_div").css( "background-color","#5DEDB6")
+        $("#hide_btn").attr("class","btn btn-dark visible");
+        $("#csv_btn").hide();
+        $("#csv").show();
+        // document.getElementById('hide_btn').className = "btn btn-dark visible";
+      }
+
+    }
+  )
+});
+
+$("#hide_btn").click(function(){
+  $("#csv").hide();
+  $(".csv_div").css( "background-color","#f08f8b")
+  $("#csv_btn").show();
+  $("#hide_btn").attr("class","btn btn-dark invisible");
+
 });
 
 

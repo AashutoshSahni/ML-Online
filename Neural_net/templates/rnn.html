@@ -1,0 +1,30 @@
+{%extends 'base.html'%}
+{% load staticfiles%}
+{% block content %}
+ <br/><br/><br/><br/>
+   <div class="container">
+    <h2><u>Recurrent Neural Network:</u></h2>
+
+    <br/>
+    <p>Recurrent Neural Network(RNN) are a type of Neural Network where the output from previous step are fed as input to the current step.RNN have a “memory” which remembers all information about what has been calculated. It uses the same parameters for each input as it performs the same task on all the inputs or hidden layers to produce the output. This reduces the complexity of parameters, unlike other neural networks.</p>
+    <h5>Long Short Term Memory networks (LSTM)</h5>
+    <p>LSTMs are explicitly designed to avoid the long-term dependency problem. Remembering information for long periods of time is practically their default behavior, not something they struggle to learn!.LSTMs also have this chain like structure, but the repeating module has a different structure.The LSTM does have the ability to remove or add information to the cell state, carefully regulated by structures called gates.</p>
+
+
+    <p><a href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/">Click here to read more</a></p>
+    <p><a href="{%static 'rnn.py'%}">Click here to see Code!</a></p>
+    <p><a href="{%static 'Google_Stock_Price_Train.csv'%}">Click here to view train dataset!</a></p>
+    <p><a href="{%static 'Google_Stock_Price_Test.csv'%}">Click here to view test dataset!</a></p>
+
+    <p>Below is an example of prediction using RRN LSTM. Click on <b>Train data and Test data!</b> to see the dataset</p>
+    <p>The example uses google stock price prediction of year it contains train dtat 5 years prioir to 2017. The LSTM processes stors long term data and use to give a prediction for 2017</p>
+    <p>The output of RNN is displayed using this visual graph by plotting real vs predicted 2017 stock</p>
+    <img src="{%static 'rnn.png'%}" alt="">
+    <br/>
+
+   </div>
+
+
+
+
+{% endblock %}

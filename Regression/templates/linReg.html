@@ -1,0 +1,141 @@
+{%extends 'base.html'%}
+{%load staticfiles%}
+{% block content %}
+<style>
+  img {
+    display: block;
+   margin-left: auto;
+   margin-right: auto;
+   width: 40%;
+  }
+  </style>
+ <br/><br/><br/><br/>
+ <div class="container">
+  <h2><u>Simple Linear Regression:</u></h2>
+  <br/>
+  <p>Simple linear regression is useful for finding relationship between two continuous variables. One is predictor or independent variable and other is response or dependent variable. It looks for statistical relationship but not deterministic relationship. Relationship between two variables is said to be deterministic if one variable can be accurately expressed by the other. For example, using temperature in degree Celsius it is possible to accurately predict Fahrenheit. Statistical relationship is not accurate in determining relationship between two variables. For example, relationship between height and weight.</p>
+  <p>This is the general equation of a polynomial regression is:</p>
+
+  <p>Y(pred) = b0 + b1*x</p>
+  <p><a href="https://towardsdatascience.com/linear-regression-detailed-view-ea73175f6e86">Click here to read more</a></p>
+  <p><b><i>Below is an example of prediction using polynomial regression.</i></b> Click on <b>View data!</b> to see the dataset</p>
+  <p>The example can be seen as a salary predictor of a person who is trying to apply for a job, HR can use this model to check whether the person is lying about his/her salary in previous company in that particular job role. There are 10 levels from 1 -> Buisness Analyst to 10 -> CEO.</p>
+  <p>For example if a person says he/her worked as Region Manager(Level 6) and it takes 2 years to promote to a Partner(Level 7). So by entering 6.5 in the model we can get approx salary based on the data provided and the model used.</p>
+  <p>Please enter a number between 1 and 10(can be decimal accoding to needs)</p>
+  <p><a href="{%static 'polynomial_regression.py'%}">Click here to see Code!</a></p>
+  <br>
+  <p>Plot of how well the data got fit in this model</p>
+  <img src="{%static 'TB_linreg.png'%}" alt="">
+  <br/>
+
+ </div>
+
+ <div class="container-fluid">
+
+
+   <div class="row">
+     <div class="container col-sm-3  align-content-end flex-wrap">
+       <form id = "submit" class="" action="" method="post" >
+         {% csrf_token %}
+         Enter:
+         <br/>
+         <input type="text" name="num" value="" id="in">
+
+
+         <br/><br/>
+         <button type="" id = "hey" class="btn btn-primary">Click me! </button>
+          <br/>
+           <p>Predicted salary: </p>
+           <p><b id="ans"></b></p>
+
+       </form>
+
+     </div>
+     <div class="container col-sm-3 align-content-end flex-wrap" align="left">
+       <!-- <button type="button" onclick="load()" name="button" value="yo"></button> -->
+       <!-- <p id="yo" onclick="load()">de</p> -->
+       <button class="btn btn-info" type="button" name="button" id="csv_btn">View data!</button>
+       <br/><br/>
+       <div class="csv_div">
+       <p id="csv"></p>
+       </div>
+       <button class="btn btn-dark invisible" type="button" name="button" id="hide_btn">Hide data!</button>
+     </div>
+   </div>
+      <br/><br/>
+ </div>
+{% endblock %}
+{%block scripts%}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+  var token = "{{csrf_token}}";
+  function load() {
+  alert("yo")
+  }
+
+  $("p").click(function(){
+    $(this).hide();
+  });
+
+  $("#submit").submit(function(event){
+   event.preventDefault();
+
+    var n ;
+    n = $('#in').val();
+     // alert(n);
+  $.ajax(
+
+  {
+     headers: { "X-CSRFToken": token },
+     type:"POST",
+     url: "ajax/show_linOut",
+     data:{
+              num: n
+          },
+   success: function( response )
+  {
+    if(response == "NO"){
+      alert("Please enter a number [1-10]");
+    }else{
+      $("#ans").html(response);
+    }
+  }
+ })
+});
+
+$("#csv_btn").click(function(event){
+  event.preventDefault();
+  // alert("hi");
+  $.ajax(
+    {
+      headers: {"X-CSRFToken":token},
+      type:"POST",
+      url:"ajax/show_csv",
+      success: function(response){
+        $("#csv").html(response);
+        $(".csv_div").css( "background-color","#5DEDB6")
+        $("#hide_btn").attr("class","btn btn-dark visible");
+        $("#csv_btn").hide();
+        $("#csv").show();
+        // document.getElementById('hide_btn').className = "btn btn-dark visible";
+      }
+
+    }
+  )
+});
+
+$("#hide_btn").click(function(){
+  $("#csv").hide();
+  $(".csv_div").css( "background-color","#f08f8b")
+  $("#csv_btn").show();
+  $("#hide_btn").attr("class","btn btn-dark invisible");
+
+});
+
+
+
+</script>
+
+{%endblock%}

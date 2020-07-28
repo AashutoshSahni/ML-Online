@@ -1,0 +1,83 @@
+{%extends 'base.html'%}
+{% block content %}
+{%load staticfiles%}
+<br/><br/><br/><br/>
+<div class="container">
+ <h2><u>Convolution Neural Networks:</u></h2>
+ <br/>
+ <p>A Convolutional Neural Network (ConvNet/CNN) is a Deep Learning algorithm which can take in an input image, assign importance (learnable weights and biases) to various aspects/objects in the image and be able to differentiate one from the other. The pre-processing required in a ConvNet is much lower as compared to other classification algorithms. While in primitive methods filters are hand-engineered, with enough training, ConvNets have the ability to learn these filters/characteristics.</p>
+ <p>Convolutional Neural Networks are a bit different. First of all, the layers are organised in 3 dimensions: width, height and depth. Further, the neurons in one layer do not connect to all the neurons in the next layer but only to a small region of it. Lastly, the final output will be reduced to a single vector of probability scores, organized along the depth dimension.</p>
+
+ <p><a href="https://towardsdatascience.com/a-comprehensive-guide-to-convolutional-neural-networks-the-eli5-way-3bd2b1164a53">Click here to read more</a></p>
+ <p><b>Below is an example of CNN model which classifies the picture of cat and dog with 84% accuracy.</b></p>
+ <p>Browse an image of any cat or dog and click upload to know the result of CNN model<p>
+<a href="{%static 'cnn.py'%}">Click here to see Code!</a>
+</div>
+<div class="container">
+  <br/><br/>
+  <form class="" method="post" id="submit" enctype="multipart/form-data">
+    {%csrf_token%}
+    <p><input type="file" name="img" id="file" onchange="readURL(this);"/></p>
+    <br/>
+    <p><input type="button" class="button" value="Upload" id="but_upload"></p>
+  </form>
+ <img id = "p_img" src="#" ></img>
+ <br/><br/>
+  <p id="ans"></p>
+  <br/><br/>
+</div>
+
+{%endblock%}
+
+{%block scripts%}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+  function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#p_img')
+                    .attr('src', e.target.result)
+                    .width(150)
+                    .height(200);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+  window.onload = function() {
+  document.getElementById('file').value = '';
+  }
+  var token = "{{csrf_token}}";
+
+	$("#but_upload").click(function(event) {
+    var fd = new FormData();
+
+     fd.append('img',$('#file').get(0).files[0]);
+     console.log(fd.get('img'));
+
+
+    event.preventDefault();
+    // alert("bye")
+
+
+			$.ajax({
+				url: "ajax/show_CNNOut",
+				type: "POST",
+        data: fd,
+        headers: { "X-CSRFToken": token },
+				processData: false,
+				contentType: false,
+        beforeSend: function() {
+            console.log('Uploading...');
+            $('.upload-progress').show();
+        },
+				success:function(response){
+                $("#ans").html("<b><i>"+response+"</i></b>");
+        }
+			});
+
+	});
+</script>
+{%endblock%}
